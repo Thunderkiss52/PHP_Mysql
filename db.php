@@ -1,7 +1,15 @@
 <?php
 
 function get_connect() {
-    return new PDO("sqlite:file:database.sqlite");
+    //iam changed that code, because im  need get exception
+    try {
+        return new PDO("sqlite:database.sqlite");
+    } catch (PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+        //im use exit because it's functional style of programm,
+        // so if I get application with style OOP i'll use throw to get error
+        exit;
+    }
 }
 
 function init_db($conn) {

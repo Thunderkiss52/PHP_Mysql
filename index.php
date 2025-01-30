@@ -7,7 +7,7 @@ include_once('test.php');
 $conn = get_connect();
 
 // Uncomment to see data in db
- run_db_test($conn);
+// run_db_test($conn);
   
 $month_names = [
     '01' => 'January',
@@ -27,27 +27,32 @@ $month_names = [
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>User transactions information</h1>
-  <form action="data.php" method="get">
+
+
+<h1>User transactions information</h1>
+<form id="userForm">
     <label for="user">Select user:</label>
     <select name="user" id="user">
-    <?php
-    $users = get_users($conn);
-    foreach ($users as $id => $name) {
-        echo "<option value=\"$id\">".$name."</option>";
-    }
-    ?>
+        <?php
+        $users = get_users($conn);
+        foreach ($users as $user) {
+            $id = $user['id'];
+            $name = $user['name'];
+            echo "<option value=\"$id\">".$name."</option>";
+        }
+        ?>
     </select>
     <input id="submit" type="submit" value="Show">
-  </form>
+</form>
 
-  <div id="data">
-      <h2>Transactions of `User name`</h2>
-      <table>
-          <tr><th>Mounth</th><th>Amount</th></tr>
-          <tr><td>...</td><td>...</td>
-       </table>
-  </div>  
+<div id="data" style="display: none;">
+    <h2>Transactions of <span id="user-name"></span></h2>
+    <table>
+        <tr><th>Month</th><th>Amount</th></tr>
+        <tbody id="transactions-body"></tbody>
+    </table>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
